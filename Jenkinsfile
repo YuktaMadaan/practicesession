@@ -2,79 +2,41 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'
-        jdk 'JDK17'
+        maven 'Maven-3.8.x'
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+                git url: 'https://github.com/YuktaMadaan/practicesession.git', branch: 'main'
             }
         }
 
-        stage('1. Validate') {
+        stage('Run 9 Maven Goals') {
             steps {
-                bat 'mvn validate'
-            }
-        }
-
-        stage('2. Compile') {
-            steps {
-                bat 'mvn compile'
-            }
-        }
-
-        stage('3. Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-
-        stage('4. Package') {
-            steps {
-                bat 'mvn package'
-            }
-        }
-
-        stage('5. Verify') {
-            steps {
-                bat 'mvn verify'
-            }
-        }
-
-        stage('6. Install') {
-            steps {
-                bat 'mvn install'
-            }
-        }
-
-        stage('7. Deploy') {
-            steps {
-                bat 'mvn deploy'
-            }
-        }
-
-        stage('8. Clean') {
-            steps {
-                bat 'mvn clean'
-            }
-        }
-
-        stage('9. Site') {
-            steps {
-                bat 'mvn site'
+                bat """
+                mvn validate
+                mvn compile
+                mvn test
+                mvn package
+                mvn verify
+                mvn install
+                mvn deploy
+                mvn clean
+                mvn site
+                """
             }
         }
     }
 
     post {
         success {
-            echo "✅ Build completed successfully with all 9 Maven goals!"
+            echo "✅ SUCCESS: All 9 Maven goals executed successfully!"
         }
         failure {
-            echo "❌ Build failed! Check logs for errors."
+            echo "❌ FAILED: Check console output for errors."
         }
     }
 }
+
